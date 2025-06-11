@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: auth-backend
-        image: <your-ecr-repo>:latest
+        image: 908027403160.dkr.ecr.us-east-1.amazonaws.com/cicd/tayelolu-ecr:latest
         ports:
         - containerPort: 3000
         env:
