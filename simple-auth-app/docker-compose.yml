@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: auth-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: auth_demo
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - authnet
+
+  backend:
+    build: ./backend
+    container_name: auth-backend
+    environment:
+      DB_USER: root
+      DB_PASS: rootpass
+    depends_on:
+      - mysql
+    ports:
+      - "3000:3000"
+    networks:
+      - authnet
+
+  frontend:
+    build: ./frontend
+    container_name: auth-frontend
+    ports:
+      - "8080:80"
+    networks:
+      - authnet
+
+volumes:
+  mysql_data:
+
+networks:
+  authnet:
