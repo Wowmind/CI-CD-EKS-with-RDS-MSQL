@@ -7,10 +7,11 @@ variable "cluster_name" {
 }
 
 variable "db_username" {
-  default = "LW4gImFkbWluIiANCg=="
+  sensitive = true
+  type = string
 }
 
 variable "db_password" {
   sensitive = true
-  default ="LW4gIjEyMzQ1NiIgDQo="
+  type = string
 }
