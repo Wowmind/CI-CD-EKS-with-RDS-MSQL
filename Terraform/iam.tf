@@ -24,11 +24,6 @@ resource "aws_iam_policy" "ecr_access" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "node_ecr" {
-  policy_arn = aws_iam_policy.ecr_access.arn
-  role       = module.eks.eks_managed_node_groups["default"].iam_role_name
-}
-
 # EKS Cluster IAM Role
 resource "aws_iam_role" "eks_cluster_role" {
   name = "eks-cluster-role"
@@ -47,10 +42,6 @@ resource "aws_iam_role" "eks_cluster_role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSClusterPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.eks_cluster_role.name
-}
 
 # EKS Node Group IAM Role
 resource "aws_iam_role" "eks_node_role" {
@@ -71,14 +62,24 @@ resource "aws_iam_role" "eks_node_role" {
 }
 
 # Attach required managed policies
-resource "aws_iam_role_policy_attachment" "node_AmazonEKSWorkerNodePolicy" {
+resource "aws_iam_role_policy_attachment" "worker_node_policy" {
   role       = aws_iam_role.eks_node_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 }
 
-resource "aws_iam_role_policy_attachment" "node_AmazonEKS_CNI_Policy" {
-  role       = aws_iam_role.eks_node_role.name
+resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
+  role       = aws_iam_role.eks_cluster_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+}
+resource "aws_iam_role_policy_attachment" "vpc_cni_policy" {
+  role       = aws_iam_role.eks_cluster_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+}
+
+
+resource "aws_iam_role_policy_attachment" "eks_service_policy" {
+  role       = aws_iam_role.eks_cluster_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
 }
 
 resource "aws_iam_role_policy_attachment" "node_AmazonEC2ContainerRegistryReadOnly" {
@@ -94,5 +95,11 @@ resource "aws_iam_role_policy_attachment" "node_CloudWatchAgentServerPolicy" {
 resource "aws_iam_role_policy_attachment" "node_Autoscaling" {
   role       = aws_iam_role.eks_node_role.name
   policy_arn = "arn:aws:iam::aws:policy/AutoScalingFullAccess"
+}
+
+
+resource "aws_iam_role_policy_attachment" "ecr_readonly" {
+  role       = aws_iam_role.eks_node_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
