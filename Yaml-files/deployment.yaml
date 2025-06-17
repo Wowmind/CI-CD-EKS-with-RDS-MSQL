@@ -1,41 +1,53 @@
 # deployment.yaml
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-app
+  name: web-app
+  labels:
+    app: web-app
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: auth
+      app: web-app
   template:
     metadata:
       labels:
-        app: auth
+        app: web-app
     spec:
       containers:
-      - name: auth-backend
-        image: 908027403160.dkr.ecr.us-east-1.amazonaws.com/cicd/tayelolu-ecr:latest
-        ports:
-        - containerPort: 3000
-        env:
-        - name: DB_HOST
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: DB_HOST
-        - name: DB_USER
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: DB_USER
-        - name: DB_PASS
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: DB_PASS
-        - name: DB_NAME
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: DB_NAME
+        - name: frontend
+          image: 908027403160.dkr.ecr.us-east-1.amazonaws.com/cicd/tayelolu-ecr:latest
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: 128Mi
+              cpu: 250m
+        - name: backend
+          image: 908027403160.dkr.ecr.us-east-1.amazonaws.com/ci/cd-tayelolu-2:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_HOST
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: rds-secret
+                  key: DB_PASS
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_NAME
+
