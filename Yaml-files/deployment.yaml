@@ -34,7 +34,7 @@ spec:
             periodSeconds: 10
 
         - name: backend
-          image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+          image: 908027403160.dkr.ecr.us-east-1.amazonaws.com/cicd/tayelolu-ecr:latest
           ports:
             - containerPort: 3000
           env:
