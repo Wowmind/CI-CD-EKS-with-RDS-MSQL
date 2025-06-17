@@ -1,53 +1,64 @@
-# deployment.yaml
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-app
+  name: js-webapp
   labels:
-    app: web-app
+    app: js-webapp
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      app: web-app
+      app: js-webapp
   template:
     metadata:
       labels:
-        app: web-app
+        app: js-webapp
     spec:
       containers:
         - name: frontend
-          image: 908027403160.dkr.ecr.us-east-1.amazonaws.com/cicd/tayelolu-ecr:latest
+          image: 908027403160.dkr.ecr.us-east-1.amazonaws.com/ci/cd-tayelolu-2:latest
           ports:
             - containerPort: 80
           resources:
             limits:
-              memory: 128Mi
-              cpu: 250m
+              memory: "128Mi"
+              cpu: "200m"
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
         - name: backend
-          image: 908027403160.dkr.ecr.us-east-1.amazonaws.com/ci/cd-tayelolu-2:latest
+          image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/backend:latest
           ports:
             - containerPort: 3000
           env:
             - name: DB_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: DB_HOST
+              value: "mydb.abcxyz123.us-east-1.rds.amazonaws.com"
             - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: DB_USER
-            - name: DB_PASS
+              value: "admin"
+            - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: rds-secret
                   key: DB_PASS
             - name: DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: DB_NAME
-
+              value: "auth_demo"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+            requests:
+              memory: "128Mi"
+              cpu: "150m"
