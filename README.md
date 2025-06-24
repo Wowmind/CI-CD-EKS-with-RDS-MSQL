@@ -50,7 +50,7 @@ docker build -t frontend ./frontend
 docker tag frontend:latest <account_id>.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
 docker push <account_id>.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
 
- GitHub Actions CI/CD
+## GitHub Actions CI/CD
 Located in .github/workflows/deploy.yml.
 
 It does:
@@ -69,7 +69,7 @@ AWS_REGION	        e.g. us-east-1
 ECR_REPO_FRONTEND	ECR URL for frontend
 ECR_REPO_BACKEND	ECR URL for backend
 
- Kubernetes Deployment
+## Kubernetes Deployment
  
 Located in the yaml folder:
 
@@ -84,7 +84,7 @@ kubectl apply -f k8s/secret.yaml
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
 
-Environment Variables (Backend)
+## Environment Variables (Backend)
 
 Variable	Description
 
