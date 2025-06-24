@@ -80,8 +80,11 @@ service.yaml – LoadBalancer exposing frontend
 secret.yaml – Stores RDS DB password
 
 Deploy manually:
+
 kubectl apply -f k8s/secret.yaml
+
 kubectl apply -f k8s/deployment.yaml
+
 kubectl apply -f k8s/service.yaml
 
 ## Environment Variables (Backend)
@@ -89,6 +92,9 @@ kubectl apply -f k8s/service.yaml
 Variable	Description
 
 DB_HOST	RDS endpoint
+
 DB_USER	DB username (e.g., admin)
+
 DB_PASSWORD	Stored in Kubernetes secret
+
 DB_NAME	e.g., appdb
