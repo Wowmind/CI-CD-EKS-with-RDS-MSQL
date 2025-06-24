@@ -2,18 +2,19 @@
 
 ## Architecture Overview
 
-Client → LoadBalancer (EKS Service)
-↓
-┌────────────┐
-│ Frontend │ (HTML)
-└────────────┘
-↓
-┌────────────┐
-│ Backend │ (Node.js)
-└────────────┘
-↓
-Amazon RDS (MySQL)
+Client → LoadBalancer (EKS Service) 
 
+↓
+
+ Frontend │ (HTML)
+ 
+ ↓
+ 
+ Backend │ (Node.js)
+ 
+ ↓
+ 
+Amazon RDS (MySQL)
 
 
 ## Infrastructure Setup (Terraform)
