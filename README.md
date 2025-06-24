@@ -74,12 +74,17 @@ Deploy updated containers to EKS using kubectl
 
 Make sure to store the following secrets in GitHub:
 
-Secret Name	         Description
-AWS_ACCESS_KEY_ID	AWS IAM Access Key
-AWS_SECRET_ACCESS_KEY	AWS IAM Secret Key
-AWS_REGION	        e.g. us-east-1
-ECR_REPO_FRONTEND	ECR URL for frontend
-ECR_REPO_BACKEND	ECR URL for backend
+Secret Name	            Description
+
+AWS_ACCESS_KEY_ID	     AWS IAM Access Key
+
+AWS_SECRET_ACCESS_KEY	 AWS IAM Secret Key
+
+AWS_REGION	            e.g. us-east-1
+
+ECR_REPO_FRONTEND	     ECR URL for frontend
+
+ECR_REPO_BACKEND      	ECR URL for backend
 
 ## Kubernetes Deployment
  
