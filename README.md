@@ -27,30 +27,42 @@ Inside the `terraform/` folder you'll find:
 - `variables.tf` – Input variables
 
 ### To deploy:
+
 cd terraform/
+
 terraform init
+
 terraform validate
+
 terraform plan -out=tfplan
+
 terraform apply tfplan
 
 Ensure:
+
 You’ve created a key pair for SSH (optional)
+
 You’ve set aws configure with proper credentials
+
 The EKS cluster gets created in private subnets, RDS is private too
 
 
-Docker & ECR
+## Docker & ECR
 Both the frontend and backend apps are dockerized.
 
  Login to ECR
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <account_id>.dkr.ecr.us-east-1.amazonaws.com
 
 # Build, tag and push frontend
+
 docker build -t frontend ./frontend
+
 docker tag frontend:latest <account_id>.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+
 docker push <account_id>.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
 
 ## GitHub Actions CI/CD
+
 Located in .github/workflows/deploy.yml.
 
 It does:
