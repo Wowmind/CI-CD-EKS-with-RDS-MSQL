@@ -70,10 +70,13 @@ ECR_REPO_FRONTEND	ECR URL for frontend
 ECR_REPO_BACKEND	ECR URL for backend
 
  Kubernetes Deployment
+ 
 Located in the yaml folder:
 
 deployment.yaml – Deploys both frontend & backend in one pod
+
 service.yaml – LoadBalancer exposing frontend
+
 secret.yaml – Stores RDS DB password
 
 Deploy manually:
@@ -82,7 +85,9 @@ kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
 
 Environment Variables (Backend)
+
 Variable	Description
+
 DB_HOST	RDS endpoint
 DB_USER	DB username (e.g., admin)
 DB_PASSWORD	Stored in Kubernetes secret
