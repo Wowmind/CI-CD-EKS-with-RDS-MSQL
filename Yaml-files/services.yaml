@@ -1,4 +1,4 @@
-# service.yaml
+# serrvice for deployment
 apiVersion: v1
 kind: Service
 metadata:
